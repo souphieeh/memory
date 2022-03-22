@@ -1,7 +1,5 @@
 import pygame
 
-
-
 import sys
 
 
@@ -42,9 +40,7 @@ class CardSprite(BaseSprite):
         super().__init__(game, x, y, groups=game.ground, layer=0)
         #self.image.fill(Config.GREEN)
 
-    def handle_clicks(self):
-        clicks
-
+    #def update(self,event_list):
 
 
 class Config:
@@ -80,12 +76,17 @@ class Game:
                 CardSprite(self, i, j)
 
 
-    def handle_events(self):
-        for event in pygame.event.get():
+    def handle_events(self,event_list):
+        for event in event_list:
             if event.type == pygame.QUIT:
                 self.playing = False
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                print("bruh")
 
-    def update(self):
+    def update(self,event_list):
+        for event in event_list:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                print("Doh")
         self.all_sprites.update()
 
     def draw(self):
@@ -95,8 +96,9 @@ class Game:
 
     def game_loop(self):
         while self.playing:
-            self.handle_events()
-            self.update()
+            event_list = pygame.event.get()
+            self.handle_events(event_list)
+            self.update(event_list)
             self.draw()
             self.clock.tick(Config.FPS)
 
